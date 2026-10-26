@@ -16,5 +16,6 @@ jobs:
       - name: Check Terraform Formatting
         run: terraform fmt -check
 
-      - name: run the s3 bucket
-        run: terraform apply
+      - name: Deploy Infrastructure
+        run: terraform apply -auto-approve
+
