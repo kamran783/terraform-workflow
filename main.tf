@@ -20,7 +20,9 @@ provider "aws" {
 
 
 
+
+
 resource "aws_s3_bucket" "my_app_bucket" {
-  bucket = "my-application-bucket-for-devops-job-12345" # Give this a unique name
+  bucket = "my-application-bucket-for-devops-job-12345678" # Give this a unique name
 }
 
