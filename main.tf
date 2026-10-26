@@ -18,7 +18,8 @@ provider "aws" {
   region = "ap-south-2"
 }
 
-# This tells Terraform to create a brand new S3 bucket for your application
+
+
 resource "aws_s3_bucket" "my_app_bucket" {
   bucket = "my-application-bucket-for-devops-job-12345" # Give this a unique name
 }
