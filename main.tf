@@ -20,8 +20,29 @@ provider "aws" {
 
 
 
+resource "aws_vpc" "vpc" {
+  cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "MyVPC"
+  }
+}
 
+resource "aws_subnet" "subnet" {
+  vpc_id = aws_vpc.vpc.id
+  cidr_block= "10.0.1.0/24"
+  tags = {
+    Name = "MySubnet"
+  }
+}
 
+resource "aws_instance" "instance" {
+  ami           = "ami-0c55b159cbfaa5888"
+  instance_type = "t2.micro"
+  subnet_id     = aws_subnet.subnet.id
+  tags = {
+    Name = "MyInstance"
+  }
+}
 resource "aws_s3_bucket" "my_app_bucket" {
   bucket = "my-application-bucket-for-devops-job-12345678" # Give this a unique name
 }
