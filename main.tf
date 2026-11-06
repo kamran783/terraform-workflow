@@ -29,16 +29,17 @@ resource "aws_vpc" "vpc" {
 
 resource "aws_subnet" "subnet" {
   vpc_id     = aws_vpc.vpc.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "10.0.${count.index}.0/24"
+  count      = 2
   tags = {
-    Name = "MySubnet"
+    Name = "MySubnet-${count.index}"
   }
 }
 
 resource "aws_instance" "instance" {
   ami           = "ami-0c24c764e44ed98f2"
   instance_type = "t3.micro"
-  subnet_id     = aws_subnet.subnet.id
+  subnet_id     = aws_subnet.subnet[0].id
   tags = {
     Name = "MyInstance"
   }
