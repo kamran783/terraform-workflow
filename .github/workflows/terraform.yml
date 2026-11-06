@@ -1,6 +1,19 @@
 name: My Terraform Checker
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Choose whether to Deploy or Destroy infrastructure'
+        required: true
+        default: 'deploy'
+        type: choice
+        options:
+          - deploy
+          - destroy
 
 jobs:
   check-my-code:
@@ -23,5 +36,12 @@ jobs:
     - name: Check Terraform Formatting
       run: terraform fmt -check
 
+    # This step runs ONLY if you push code OR choose 'deploy' from the manual menu
     - name: Deploy Infrastructure
+      if: ${{ github.event_name == 'push' || inputs.action == 'deploy' }}
       run: terraform apply -auto-approve
+
+    # This step runs ONLY if you manually select 'destroy' from the GitHub Actions page
+    - name: Destroy Infrastructure
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.action == 'destroy' }}
+      run: terraform destroy -auto-approve
